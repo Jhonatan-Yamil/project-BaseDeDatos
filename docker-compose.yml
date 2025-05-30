@@ -1,6 +1,9 @@
-postgres:
+version: '3.8'
+
+services:
+  postgres:
     image: postgres:15
-    container_name: postgres
+    container_name: proyecto-valorant-postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -8,5 +11,25 @@ postgres:
     ports:
       - "5432:5432"
     volumes:
-    - pgdata:/var/lib/postgresql/data
-    - ./init/postgres-valorant.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+      - ./init/postgres-valorant.sql:/docker-entrypoint-initdb.d/init.sql
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysqldata:/var/lib/mysql
+      - ./init/mysql-valorant.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  pgdata:
+    driver: local
+  mysqldata:
+    driver: local
