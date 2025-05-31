@@ -51,7 +51,7 @@ CREATE TABLE matches (
     map_id INT NOT NULL REFERENCES maps(id),
     match_date DATE NOT NULL,
     duration_minutes INT,
-    winning_team_id INT REFERENCES teams(id)
+    winning_team_id INT REFERENCES teams(id),
     losing_team_id INT REFERENCES teams(id)
 );
 
