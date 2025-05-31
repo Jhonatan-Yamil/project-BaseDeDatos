@@ -73,5 +73,5 @@ CREATE TABLE player_player_stats (
     match_id INT NOT NULL REFERENCES matches(id),
     kills INT,
     deaths INT,
-    assists INT,
+    assists INT
 );
