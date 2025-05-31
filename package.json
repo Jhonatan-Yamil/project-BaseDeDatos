@@ -1,0 +1,17 @@
+{
+  "name": "project-basededatos",
+  "version": "1.0.0",
+  "description": "Holiii",
+  "main": "index.js",
+  "scripts": {
+    "dev": "docker compose --env-file .env up -d",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mysql2": "^3.14.1",
+    "pg": "^8.16.0"
+  }
+}
