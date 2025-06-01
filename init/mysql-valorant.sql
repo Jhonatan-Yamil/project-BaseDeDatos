@@ -57,3 +57,10 @@ CREATE TABLE wallet_transactions (
     FOREIGN KEY (transaction_id) REFERENCES transactions(id),
     FOREIGN KEY (vp_package_id) REFERENCES vp_packages(id)
 );
+
+create table transaction_errors (
+    id int auto_increment primary key,
+    transaction_id int not null,
+    error_message varchar(255),
+    created_at datetime default current_timestamp
+);
