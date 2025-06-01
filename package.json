@@ -1,16 +1,20 @@
 {
   "name": "project-basededatos",
   "version": "1.0.0",
-  "description": "Holiii",
+  "description": "Proyecto Base de Datos Avanzadas",
   "main": "index.js",
   "scripts": {
-    "dev": "docker compose --env-file .env up -d",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "backup:postgres": "node backup/backup-postgres.js",
+    "backup:mysql": "node backup/backup-mysql.js",
+    "restore:pg": "node backup/restore_postgres.js",
+    "restore:mysql": "node backup/restore_mysql.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "cron": "^4.3.1",
+    "dotenv": "^16.5.0",
     "mysql2": "^3.14.1",
     "pg": "^8.16.0"
   }
