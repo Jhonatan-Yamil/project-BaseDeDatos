@@ -15,10 +15,15 @@ CREATE TABLE rol (
     name VARCHAR(30) NOT NULL UNIQUE
 );
 
+create table rank_levels (
+    id serial primary key,
+    rank_name varchar(20) not null unique,
+    rank_order int not null unique
+);
 CREATE TABLE players (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
-    rank VARCHAR(20),
+    rank_id int references rank_levels(id),
     level INT,
     country INT NOT NULL REFERENCES country(id),
     regions INT NOT NULL REFERENCES regions(id),
