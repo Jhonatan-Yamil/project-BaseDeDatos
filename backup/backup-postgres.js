@@ -3,7 +3,7 @@ const { exec } = require('child_process');
 require('dotenv').config();
 
 const job = new cron.CronJob(
-    '*/1 * * * *', // cada minuto
+  '0 0 * * *', // Corre cada día
   function () {
     const dockerUser = 'postgres';
     const dockerContainer = 'proyecto-valorant-postgres';
