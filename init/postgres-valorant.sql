@@ -32,7 +32,7 @@ CREATE TABLE players (
 );
 CREATE TABLE IF NOT EXISTS info_players (
     id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     player_id INT NOT NULL UNIQUE REFERENCES players(id),

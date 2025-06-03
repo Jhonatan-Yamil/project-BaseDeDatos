@@ -11,7 +11,7 @@ const job = new cron.CronJob(
     const database = process.env.MYSQL_DATABASE;
     const folder = '/tmp';
     const currentDate = new Date();
-    const fileName = `mysql_backup_${currentDate.toISOString().slice(0, 19).replace(/[:T]/g, '-')}.sql`;
+    const fileName = `mysql_backup_${currentDate.toISOString().slice(0, 19).replace(/[:T]/g, '-')}.dump`;
 
     const backupCommand = `docker exec ${dockerContainer} sh -c "mysqldump -u ${DBUser} -p${DBPassword} ${database} > /tmp/${fileName}"`;
     const copyCommand = `docker cp ${dockerContainer}:/tmp/${fileName} ./backups/mysql/${fileName}`;
