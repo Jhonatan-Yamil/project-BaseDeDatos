@@ -15,7 +15,6 @@ begin
       and match_id = p_match_id;
       
     if not found then
-        -- si no existe, inserta nuevo registro del jugador
         insert into player_stats (player_id, match_id, kills, deaths, assists)
         values (p_player_id, p_match_id, p_kills, p_deaths, p_assists);
     end if;

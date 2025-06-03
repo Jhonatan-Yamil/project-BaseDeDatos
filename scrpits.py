@@ -1,31 +1,38 @@
 import random
+from datetime import datetime, timedelta
 
-# Parámetros
-NUM_RECORDS = 30000
-PLAYER_IDS = list(range(1, 1001))      # 1000 jugadores
-MATCH_IDS = list(range(4, 30004))      # matches entre 4 y 30003
+NUM_WALLET_TRANSACTIONS = 1000
+MAX_WALLET_ID = 1000
+MAX_TRANSACTION_ID = 30000
+MAX_VP_PACKAGE_ID = 5
 
-# Función para generar registros válidos
-def generate_player_player_stats_record():
-    player_id = random.choice(PLAYER_IDS)
-    opponent_id = random.choice(PLAYER_IDS)
-    while opponent_id == player_id:
-        opponent_id = random.choice(PLAYER_IDS)
-    match_id = random.choice(MATCH_IDS)
-    kills = random.randint(0, 30)
-    deaths = random.randint(0, 30)
-    assists = random.randint(0, 20)
-    return f"({player_id}, {opponent_id}, {match_id}, {kills}, {deaths}, {assists})"
+def random_date(start, end):
+    """Genera una fecha aleatoria entre start y end (datetime)."""
+    delta = end - start
+    random_seconds = random.randint(0, int(delta.total_seconds()))
+    return start + timedelta(seconds=random_seconds)
 
-# Crear registros
-records = [generate_player_player_stats_record() for _ in range(NUM_RECORDS)]
+wallet_transactions_values = []
+start_date = datetime(2023, 1, 1)
+end_date = datetime(2025, 6, 1)
 
-# Generar script SQL
-sql_script = "INSERT INTO player_player_stats (player_id, opponent_id, match_id, kills, deaths, assists) VALUES\n"
-sql_script += ",\n".join(records) + ";\n"
+for _ in range(NUM_WALLET_TRANSACTIONS):
+    wallet_id = random.randint(1, MAX_WALLET_ID)
+    transaction_id = random.randint(1, MAX_TRANSACTION_ID)+1
+    vp_package_id = random.randint(1, MAX_VP_PACKAGE_ID)
+    vp_amount = random.randint(1, 1000)
+    created_at = random_date(start_date, end_date).strftime('%Y-%m-%d %H:%M:%S')
+    
+    wallet_transactions_values.append(
+        f"({wallet_id}, {transaction_id}, {vp_package_id}, {vp_amount}, '{created_at}')"
+    )
 
-# Guardar archivo
-output_path = "./player_player_stats.sql"
-with open(output_path, "w") as file:
-    file.write(sql_script)
+sql_wallet_transactions = (
+    "INSERT INTO wallet_transactions (wallet_id, transaction_id, vp_package_id, vp_amount, created_at) VALUES\n"
+)
+sql_wallet_transactions += ",\n".join(wallet_transactions_values) + ";\n"
 
+with open("insert_wallet_transactions.sql", "w") as f:
+    f.write(sql_wallet_transactions)
+
+print("Archivo insert_wallet_transactions.sql generado con 1000 registros.")
