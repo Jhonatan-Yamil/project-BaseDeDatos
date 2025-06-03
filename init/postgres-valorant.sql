@@ -1,5 +1,3 @@
-
-
 CREATE TABLE country (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
@@ -68,7 +66,7 @@ CREATE TABLE matches (
     duration_minutes INT DEFAULT -1,
     winning_team_id INT REFERENCES teams(id),
     losing_team_id INT REFERENCES teams(id)
-);
+) partition by range (match_date);
 
 CREATE TABLE player_stats (
     id SERIAL PRIMARY KEY,
@@ -90,3 +88,10 @@ CREATE TABLE player_player_stats (
     deaths INT,
     assists INT
 );
+
+-- Particionamiento de la tabla matches por año
+create table matches_2024 partition of matches
+for values from ('2024-01-01') to ('2025-01-01');
+
+create table matches_2025 partition of matches
+for values from ('2025-01-01') to ('2026-01-01');
