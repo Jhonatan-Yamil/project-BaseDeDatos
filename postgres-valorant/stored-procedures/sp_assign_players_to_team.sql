@@ -17,9 +17,9 @@ begin
     exception
         when foreign_key_violation then
             rollback;
-            raise exception 'error: violación de clave foránea al crear el equipo.';
+            raise exception 'error: clave foranea no encontrada';
         when others then
             rollback;
-            raise exception 'error al asignar jugadores al equipo: %', sqlerrm;
+            raise exception 'error al asignar jugadores al equipo;
     end;
 end;$$
