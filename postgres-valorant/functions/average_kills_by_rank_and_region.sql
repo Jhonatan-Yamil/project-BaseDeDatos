@@ -1,6 +1,6 @@
 create function f_average_kills_by_rank_and_region (rank_id INT, region_id INT)
 returns DECIMAL(10,2)
-as
+as $$
 begin
     return (
         select AVG(CAST(ps.kills AS DECIMAL(10,2)))
@@ -11,3 +11,4 @@ begin
         and ps.kills is not null
     );
 end;
+$$ language plpgsql;
