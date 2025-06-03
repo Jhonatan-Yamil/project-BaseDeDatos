@@ -12,9 +12,12 @@ declare
     match_id int;
     player_stat json;
 begin
-        insert into matches (map_id, match_date, duration_minutes, winning_team_id, losing_team_id)
-        values (p_map_id, p_match_date, p_duration, p_winning_team_id, p_losing_team_id)
+        insert into matches (map_id, match_date, duration_minutes)
+        values (p_map_id, p_match_date, p_duration)
         returning id into match_id;
+
+        insert into matches_result (match_id, winning_team_id, losing_team_id)
+        values (match_id, p_winning_team_id, p_losing_team_id);
 
         for player_stat in select * from json_array_elements(p_player_stats)
         loop
