@@ -22,4 +22,4 @@ begin
             rollback;
             raise exception 'error al asignar jugadores al equipo: %', sqlerrm;
     end;
-end;
+end;$$

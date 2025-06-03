@@ -45,3 +45,4 @@ begin
             raise exception 'error inesperado: %', sqlerrm;
     end;
 end;
+$$

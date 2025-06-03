@@ -64,6 +64,14 @@ CREATE TABLE matches (
     map_id INT NOT NULL,
     match_date DATE NOT NULL,
     duration_minutes INT DEFAULT -1
+);
+
+CREATE TABLE matches_P (
+    id BIGSERIAL NOT NULL,
+    map_id INT NOT NULL,
+    match_date DATE NOT NULL,
+    duration_minutes INT DEFAULT -1,
+    PRIMARY KEY (id, match_date)
 ) PARTITION BY RANGE (match_date);
 
 CREATE TABLE matches_result (
@@ -93,11 +101,14 @@ CREATE TABLE player_player_stats (
     assists INT
 );
 
-CREATE TABLE matches_act1 PARTITION OF matches
+CREATE TABLE matches_act0 PARTITION OF matches_P
+FOR VALUES FROM (MINVALUE) TO ('2025-01-01');
+
+CREATE TABLE matches_act1 PARTITION OF matches_P
 FOR VALUES FROM ('2025-01-01') TO ('2025-05-01');
 
-CREATE TABLE matches_act2 PARTITION OF matches
+CREATE TABLE matches_act2 PARTITION OF matches_P
 FOR VALUES FROM ('2025-05-01') TO ('2025-09-01');
 
-CREATE TABLE matches_act3 PARTITION OF matches
+CREATE TABLE matches_act3 PARTITION OF matches_P
 FOR VALUES FROM ('2025-09-01') TO ('2026-01-01');

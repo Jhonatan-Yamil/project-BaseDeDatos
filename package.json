@@ -7,7 +7,8 @@
     "backup:postgres": "node backup/backup-postgres.js",
     "backup:mysql": "node backup/backup-mysql.js",
     "restore:pg": "node backup/restore_postgres.js",
-    "restore:mysql": "node backup/restore_mysql.js"
+    "restore:mysql": "node backup/restore_mysql.js",
+    "dev": "docker-compose --env-file .env up -d"
   },
   "keywords": [],
   "author": "",
