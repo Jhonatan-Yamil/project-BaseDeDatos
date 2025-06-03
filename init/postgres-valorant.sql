@@ -61,12 +61,16 @@ CREATE TABLE agents (
 
 CREATE TABLE matches (
     id SERIAL PRIMARY KEY,
-    map_id INT NOT NULL REFERENCES maps(id),
+    map_id INT NOT NULL,
     match_date DATE NOT NULL,
-    duration_minutes INT DEFAULT -1,
-    winning_team_id INT REFERENCES teams(id),
-    losing_team_id INT REFERENCES teams(id)
-) partition by range (match_date);
+    duration_minutes INT DEFAULT -1
+) PARTITION BY RANGE (match_date);
+
+CREATE TABLE matches_result (
+    match_id INT PRIMARY KEY REFERENCES matches(id),
+    winning_team_id INT NOT NULL REFERENCES teams(id),
+    losing_team_id INT NOT NULL REFERENCES teams(id)
+);
 
 CREATE TABLE player_stats (
     id SERIAL PRIMARY KEY,
@@ -89,9 +93,11 @@ CREATE TABLE player_player_stats (
     assists INT
 );
 
--- Particionamiento de la tabla matches por año
-create table matches_2024 partition of matches
-for values from ('2024-01-01') to ('2025-01-01');
+CREATE TABLE matches_act1 PARTITION OF matches
+FOR VALUES FROM ('2025-01-01') TO ('2025-05-01');
 
-create table matches_2025 partition of matches
-for values from ('2025-01-01') to ('2026-01-01');
+CREATE TABLE matches_act2 PARTITION OF matches
+FOR VALUES FROM ('2025-05-01') TO ('2025-09-01');
+
+CREATE TABLE matches_act3 PARTITION OF matches
+FOR VALUES FROM ('2025-09-01') TO ('2026-01-01');

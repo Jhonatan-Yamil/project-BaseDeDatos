@@ -70,16 +70,16 @@ create table transaction_errors (
 -- Particionamientos
 
 -- Particionamiento de la tabla wallet_transactions
-create table wallet_transactions_partitioned (
-    id int auto_increment primary key,
-    wallet_id int not null,
-    transaction_id int not null,
-    vp_package_id int not null,
-    vp_amount int not null,
-    created_at datetime not null
-)
-partition by range (year(created_at)) (
-    partition p2023 values less than (2024),
-    partition p2024 values less than (2025),
-    partition p2025 values less than (2026)
-);
+-- create table wallet_transactions_partitioned (
+--     id int auto_increment primary key,
+--     wallet_id int not null,
+--     transaction_id int not null,
+--     vp_package_id int not null,
+--     vp_amount int not null,
+--     created_at datetime not null
+-- )
+-- partition by range (year(created_at)) (
+--     partition p2023 values less than (2024),
+--     partition p2024 values less than (2025),
+--     partition p2025 values less than (2026)
+-- );
