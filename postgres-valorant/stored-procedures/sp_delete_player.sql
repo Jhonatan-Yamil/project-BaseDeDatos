@@ -38,11 +38,7 @@ begin
     exception
         when foreign_key_violation then
             rollback;
-            raise exception 'error: no se puede eliminar el jugador % debido a dependencias.', p_player_id;
-
-        when others then
-            rollback;
-            raise exception 'error inesperado: %', sqlerrm;
+            raise exception 'error: no se puede eliminar el jugador %', p_player_id;
     end;
 end;
 $$
