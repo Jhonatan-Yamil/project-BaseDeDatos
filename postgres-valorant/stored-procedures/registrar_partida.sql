@@ -33,7 +33,8 @@ begin
             );
         end loop;
     exception when others then
+    rollback;
             raise notice 'ocurrio un error al registrar la partida';
-            raise exception 'Error al registrar la partida: %', sqlerrm;
+
 end;
 $$;

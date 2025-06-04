@@ -11,8 +11,10 @@ ORDER BY avg_kda DESC
 LIMIT 10; --46.456 y 145.435
 
 
+CREATE INDEX idx_matches_date ON matches(match_date);
+
 CREATE INDEX idx_player_stats_match_player ON player_stats(match_id, player_id);
-CREATE INDEX idx_matches_id_date ON matches(id, match_date);
+
 CREATE INDEX idx_players_id_username ON players(id, username); -- 5.021,40.402
 
 
