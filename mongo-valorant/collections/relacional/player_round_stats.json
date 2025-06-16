@@ -1,0 +1,11 @@
+{
+  "_id": ObjectId,
+  "match_id": ObjectId,
+  "round_number": Number,
+  "player_id": ObjectId,
+  "team_id": ObjectId,
+  "kills": Number,
+  "deaths": Number,
+  "headshots": Number,
+  "damage": Number
+}

@@ -1,0 +1,14 @@
+{
+  "_id": ObjectId,
+  "match_id": ObjectId,
+  "rounds": [
+    {
+      "round_number": 1,
+      "winning_team": ObjectId,
+      "losing_team": ObjectId,
+      "plant_site": "A",
+      "spike_planted": true,
+      "duration_seconds": 45
+    }
+  ]
+}
