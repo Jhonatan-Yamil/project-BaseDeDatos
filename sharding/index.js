@@ -1,35 +1,36 @@
+require("dotenv").config({ path: "../.env" });
 const postgres = require("postgres");
 
 const sqlMain = postgres(
-  "postgres://luis:123456789@localhost:5432/valorant_gameplay_db",
+  `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}:5432/${process.env.POSTGRES_DB}`,
   {
     host: "localhost",
     port: 5432,
     database: "valorant_gameplay_db",
-    username: "luis",
-    password: "123456789",
+    username: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
   }
 );
 
 const sqlLA = postgres(
-  "postgres://luis:123456789@localhost:5433/valorant_gameplay_db",
+  `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}:5436/${process.env.POSTGRES_DB}`,
   {
     host: "localhost",
-    port: 5433,
+    port: 5436,
     database: "valorant_gameplay_db",
-    username: "luis",
-    password: "123456789",
+    username: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
   }
 );
 
 const sqlEU = postgres(
-  "postgres://luis:123456789@localhost:5434/valorant_gameplay_db",
+  `postgres://${process.env.POSTGRES_USER}:${process.env.POSTGRES_PASSWORD}@${process.env.POSTGRES_HOST}:5437/${process.env.POSTGRES_DB}`,
   {
     host: "localhost",
-    port: 5434,
+    port: 5437,
     database: "valorant_gameplay_db",
-    username: "luis",
-    password: "123456789",
+    username: process.env.POSTGRES_USER,
+    password: process.env.POSTGRES_PASSWORD,
   }
 );
 
