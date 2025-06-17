@@ -53,7 +53,7 @@ const getPaymentMethods = async () => {
   if (exists) return await redis.sMembers(key);
 
   const [rows] = await db.query("SELECT method_name FROM payment_methods");
-  const methods = rows.map((r) => r.name);
+  const methods = rows.map((r) => r.method_name);
   if (methods.length > 0) {
     await redis.sAdd(key, ...methods);
     await redis.expire(key, 86400);
