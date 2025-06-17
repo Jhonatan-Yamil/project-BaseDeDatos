@@ -17,17 +17,24 @@ redis.connect().catch(console.error);
 
 // 🔹 VP Package (Hash, TTL 6h)
 const getVpPackage = async (id) => {
-  const key = `vp_package:${id}`;
-  const cached = await redis.get(key);
+  const hashKey = "vp_package";
+  const field = id.toString();
+
+  const cached = await redis.hGet(hashKey, field);
   if (cached) return JSON.parse(cached);
 
   const [rows] = await db.query("SELECT * FROM vp_packages WHERE id = ?", [id]);
   const data = rows[0];
-  if (data) await redis.setEx(key, 21600, JSON.stringify(data)); // 6h
+
+  if (data) {
+    await redis.hSet(hashKey, field, JSON.stringify(data));
+    const ttl = await redis.ttl(hashKey);
+    if (ttl === -1) await redis.expire(hashKey, 21600);
+  }
+
   return data;
 };
 
-// 🔹 Wallet Balance (String, TTL 60s)
 const getWalletBalance = async (userId) => {
   const key = `wallet_balance:${userId}`;
   const cached = await redis.get(key);
@@ -35,7 +42,7 @@ const getWalletBalance = async (userId) => {
 
   const [rows] = await db.query("SELECT balance FROM wallets WHERE user_id = ?", [userId]);
   const balance = rows[0]?.balance || 0;
-  await redis.setEx(key, 60, balance.toString()); // 60s
+  await redis.setEx(key, 60, balance.toString());
   return balance;
 };
 
@@ -49,39 +56,9 @@ const getPaymentMethods = async () => {
   const methods = rows.map((r) => r.name);
   if (methods.length > 0) {
     await redis.sAdd(key, ...methods);
-    await redis.expire(key, 86400); // 24h
+    await redis.expire(key, 86400);
   }
   return methods;
-};
-
-// 🔹 Rank Levels (Sorted Set, TTL 24h)
-const getRankLevels = async () => {
-  const key = "rank_levels";
-  const exists = await redis.exists(key);
-  if (exists) return await redis.zRangeWithScores(key, 0, -1);
-
-  const [rows] = await db.query("SELECT name, rank_order FROM rank_levels");
-  if (rows.length > 0) {
-    const members = rows.flatMap((r) => [r.rank_order, r.name]);
-    await redis.zAdd(key, rows.map(r => ({ score: r.rank_order, value: r.name })));
-    await redis.expire(key, 86400); // 24h
-  }
-  return rows;
-};
-
-// 🔹 Players by Country (Set, TTL 1h)
-const getPlayersByCountry = async (countryCode) => {
-  const key = `players:by_country:${countryCode}`;
-  const exists = await redis.exists(key);
-  if (exists) return await redis.sMembers(key);
-
-  const [rows] = await db.query("SELECT id FROM players WHERE country_code = ?", [countryCode]);
-  const ids = rows.map((r) => r.id.toString());
-  if (ids.length > 0) {
-    await redis.sAdd(key, ...ids);
-    await redis.expire(key, 3600); // 1h
-  }
-  return ids;
 };
 
 // 🔸 Test
@@ -89,6 +66,4 @@ const getPlayersByCountry = async (countryCode) => {
   console.log("VP Package:", await getVpPackage(1));
   console.log("Wallet Balance:", await getWalletBalance(5));
   console.log("Payment Methods:", await getPaymentMethods());
-  console.log("Rank Levels:", await getRankLevels());
-  console.log("Players (PE):", await getPlayersByCountry("PE"));
 })();
