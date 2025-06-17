@@ -1,7 +1,5 @@
-version: '3.8'
-
 services:
-  postgres:
+  postgresla:
     image: postgres:15
     container_name: proyecto-valorant-postgres-LA
     environment:
@@ -11,10 +9,10 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata-la:/var/lib/postgresql/data
       - ./init/postgres-valorant.sql:/docker-entrypoint-initdb.d/init.sql
   
-  postgres:
+  postgreseu:
     image: postgres:15
     container_name: proyecto-valorant-postgres-EU
     environment:
@@ -24,5 +22,9 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - pgdata-eu:/var/lib/postgresql/data
       - ./init/postgres-valorant.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  pgdata-la:
+  pgdata-eu:

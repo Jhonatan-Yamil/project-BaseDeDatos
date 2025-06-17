@@ -15,7 +15,6 @@ services:
       - POSTGRESQL_REPLICATION_PASSWORD=replicator_password
     volumes:
       - ./primary_data:/bitnami/postgresql
-      - pgdata:/var/lib/postgresql/data
       - ./init/postgres-valorant.sql:/docker-entrypoint-initdb.d/init.sql
 
   postgres_replica_1:
@@ -56,7 +55,7 @@ services:
 
   postgres_exporter:
     image: prometheuscommunity/postgres-exporter
-    container_name: postgres_exporter
+    container_name: proyecto-valorant-postgres-exporter
     ports:
       - "9187:9187"
     environment:

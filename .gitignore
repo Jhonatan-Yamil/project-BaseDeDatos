@@ -1,2 +1,5 @@
 .env
 node_modules
+primary_data
+replica1_data
+replica2_data
