@@ -90,3 +90,4 @@ db.leaderboards_snapshots.insertMany([
       { player_id: 530, rank: 3, kills: 135, deaths: 66, matches_played: 27 }
     ]
   }
+]);
