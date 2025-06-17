@@ -1,11 +1,12 @@
 version: '3.8'
 
+# TODO: Ver el puerto 55432, solo para master se cambio
 services:
   postgres_primary:
     image: bitnami/postgresql:14
     container_name: proyecto-valorant-postgres-main
     ports:
-      - "5432:5432"
+      - "55432:5432"
     environment:
       - POSTGRESQL_REPLICATION_MODE=master
       - POSTGRESQL_USERNAME=user

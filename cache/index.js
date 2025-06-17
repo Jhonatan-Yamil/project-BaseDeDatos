@@ -1,4 +1,4 @@
-require("dotenv").config();
+require("dotenv").config({path: "../.env"});
 const { createClient } = require("redis");
 const mysql = require("mysql2/promise");
 
@@ -52,7 +52,7 @@ const getPaymentMethods = async () => {
   const exists = await redis.exists(key);
   if (exists) return await redis.sMembers(key);
 
-  const [rows] = await db.query("SELECT name FROM payment_methods");
+  const [rows] = await db.query("SELECT method_name FROM payment_methods");
   const methods = rows.map((r) => r.name);
   if (methods.length > 0) {
     await redis.sAdd(key, ...methods);
