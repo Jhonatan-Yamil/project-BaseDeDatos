@@ -7,6 +7,7 @@ El sistema maneja **pagos, transacciones y billeteras**, con operaciones crític
 - Tipos de transacción
 - Paquetes VP (`vp_packages`)
 - Consulta del balance en wallets
+- Rankings de jugadores (`rank_levels`, `players`)
 
 Estas operaciones son de **lectura frecuente** y tienen **cambios poco frecuentes** o con reglas bien definidas.
 
@@ -52,10 +53,19 @@ vp_package:1 => {
 **TTL**: 24 horas  
 **Política de actualización**: TTL + cache warming.
 
+### Jugadores por país como Set
+**Por qué**: Necesidad de filtros rápidos.  
+**Redis key**: `players:by_country:{country_code}`  
+**Tipo**: Set  
+**Contenido**: IDs de jugadores  
+**TTL**: 1 hora  
+**Política de actualización**: TTL + actualización al detectar cambios.
+
 ## Justificación de TTLs y Políticas de Expiración
 | Dato                | TTL sugerido | Justificación                              | Política de actualización             |
 |---------------------|--------------|--------------------------------------------|---------------------------------------|
-| `vp_packages`       | 6h           | Cambia poco, lectura frecuente             | Manual o TTL                         |
-| `wallet_balance`    | 60s          | Cambia seguido, no en milisegundos         | TTL + actualización al escribir       |
-| `payment_methods`   | 24h o indef. | Cambia casi nunca                          | Solo si se edita en DB               |
-| `rank_levels`       | 24h          | Cambios raros                              | TTL + warming                        |
+| `vp_packages`       | 6h           | Cambia poco, lectura frecuente             | Manual o TTL                          |
+| `wallet_balance`    | 6h           | Cambia poco                                | TTL + actualización al escribir       |
+| `payment_methods`   | 24h o indef. | Cambia casi nunca                          | Solo si se edita en DB                |
+| `rank_levels`       | 24h          | Cambios raros                              | TTL + warming                         |
+| `players:by_country`| 1h           | Actualización solo con cambios notables    | TTL                                   |
