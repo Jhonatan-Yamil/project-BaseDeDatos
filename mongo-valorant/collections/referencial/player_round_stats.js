@@ -1,15 +1,47 @@
 db.createCollection("player_round_stats");
 {
-  "_id": ObjectId,
-  "match_id": ObjectId,
-  "round_number": Number,
-  "player_id": ObjectId,
-  "team_id": ObjectId,
-  "kills": Number,
-  "deaths": Number,
-  "headshots": Number,
-  "damage": Number
+  "bsonType": "object",
+  "required": ["match_id", "round_number", "player_id", "team_id", "kills", "deaths", "headshots", "damage"],
+  "properties": {
+    "match_id": {
+      "bsonType": "int",
+      "description": "ID del partido"
+    },
+    "round_number": {
+      "bsonType": "int",
+      "description": "Número de la ronda"
+    },
+    "player_id": {
+      "bsonType": "int",
+      "description": "ID del jugador"
+    },
+    "team_id": {
+      "bsonType": "int",
+      "description": "ID del equipo del jugador"
+    },
+    "kills": {
+      "bsonType": "int",
+      "minimum": 0,
+      "description": "Cantidad de bajas del jugador en esta ronda"
+    },
+    "deaths": {
+      "bsonType": "int",
+      "minimum": 0,
+      "description": "Cantidad de muertes del jugador en esta ronda"
+    },
+    "headshots": {
+      "bsonType": "int",
+      "minimum": 0,
+      "description": "Cantidad de tiros a la cabeza"
+    },
+    "damage": {
+      "bsonType": "int",
+      "minimum": 0,
+      "description": "Cantidad de daño causado"
+    }
+  }
 }
+
 
 // Inserción de ejemplo
 db.player_round_stats.insertMany([

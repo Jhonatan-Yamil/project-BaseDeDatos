@@ -1,11 +1,22 @@
 db.createCollection("daily_login_rewards");
 
 {
-  "player_id": ObjectId,
-  "rewards": [
-    { "date": "2025-06-14", "vp_rewarded": 150 },
-    { "date": "2025-06-15", "vp_rewarded": 300 }
-  ]
+  "type": "object",
+  "properties": {
+    "player_id": { "type": "number" },
+    "rewards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": { "type": "string", "format": "date" },
+          "vp_rewarded": { "type": "number" }
+        },
+        "required": ["date", "vp_rewarded"]
+      }
+    }
+  },
+  "required": ["player_id", "rewards"]
 }
 
 // Inserción de ejemplo

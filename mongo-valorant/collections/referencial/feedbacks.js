@@ -1,11 +1,27 @@
 db.createCollection("feedbacks");
 
 {
-  "_id": ObjectId,
-  "player_id": ObjectId,
-  "feedback_text": "The server lag was bad.",
-  "feedback_type": "performance",
-  "submitted_at": ISODate("2025-06-14T12:00:00Z")
+  "bsonType": "object",
+  "required": ["player_id", "feedback_text", "feedback_type", "submitted_at"],
+  "properties": {
+    "player_id": {
+      "bsonType": "int",
+      "description": "ID del jugador que envió el feedback"
+    },
+    "feedback_text": {
+      "bsonType": "string",
+      "description": "Texto del feedback"
+    },
+    "feedback_type": {
+      "bsonType": "string",
+      "description": "Tipo de feedback",
+      "enum": ["performance", "gameplay", "bugs", "other"]
+    },
+    "submitted_at": {
+      "bsonType": "date",
+      "description": "Fecha y hora en que se envió el feedback"
+    }
+  }
 }
 
 // Inserción de ejemplo

@@ -1,15 +1,40 @@
 db.createCollection("reported_players");
-
 {
-  "reported_player_id": ObjectId,
-  "reports": [
-    {
-      "reporter_id": ObjectId,
-      "reason": "cheating",
-      "timestamp": ISODate("2025-06-15T16:00:00Z"),
-      "evidence": "clip123.mp4"
+  "bsonType": "object",
+  "required": ["reported_player_id", "reports"],
+  "properties": {
+    "reported_player_id": {
+      "bsonType": "int",
+      "description": "ID del jugador reportado"
+    },
+    "reports": {
+      "bsonType": "array",
+      "description": "Lista de reportes en contra del jugador",
+      "items": {
+        "bsonType": "object",
+        "required": ["reporter_id", "reason", "timestamp", "evidence"],
+        "properties": {
+          "reporter_id": {
+            "bsonType": "int",
+            "description": "ID del jugador que reporta"
+          },
+          "reason": {
+            "bsonType": "string",
+            "enum": ["cheating", "toxic behavior", "griefing", "afk", "other"],
+            "description": "Motivo del reporte"
+          },
+          "timestamp": {
+            "bsonType": "date",
+            "description": "Fecha y hora del reporte"
+          },
+          "evidence": {
+            "bsonType": "string",
+            "description": "Archivo adjunto como evidencia"
+          }
+        }
+      }
     }
-  ]
+  }
 }
 
 // Inserción de ejemplo

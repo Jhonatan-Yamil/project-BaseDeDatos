@@ -1,12 +1,45 @@
 db.createCollection("leaderboards_snapshots");
 
 {
-  "_id": ObjectId,
-  "snapshot_date": ISODate("2025-06-15T00:00:00Z"),
-  "players": [
-    { "player_id": ObjectId, "rank": 1, "kills": 130, "deaths": 50, "matches_played": 20 }
-  ]
+  "bsonType": "object",
+  "required": ["snapshot_date", "players"],
+  "properties": {
+    "snapshot_date": {
+      "bsonType": "date",
+      "description": "Fecha del snapshot del leaderboard"
+    },
+    "players": {
+      "bsonType": "array",
+      "items": {
+        "bsonType": "object",
+        "required": ["player_id", "rank", "kills", "deaths", "matches_played"],
+        "properties": {
+          "player_id": {
+            "bsonType": "int",
+            "description": "ID único del jugador"
+          },
+          "rank": {
+            "bsonType": "int",
+            "description": "Ranking del jugador en el snapshot"
+          },
+          "kills": {
+            "bsonType": "int",
+            "description": "Cantidad de asesinatos del jugador"
+          },
+          "deaths": {
+            "bsonType": "int",
+            "description": "Cantidad de muertes del jugador"
+          },
+          "matches_played": {
+            "bsonType": "int",
+            "description": "Cantidad de partidas jugadas"
+          }
+        }
+      }
+    }
+  }
 }
+
 
 // Inserción de ejemplo
 db.leaderboards_snapshots.insertMany([

@@ -1,12 +1,47 @@
 db.createCollection("agent_performance_history");
 
 {
-  "player_id": ObjectId,
-  "agent": "Jett",
-  "performance": [
-    { "match_id": ObjectId, "kills": 15, "deaths": 10, "assists": 3 },
-    { "match_id": ObjectId, "kills": 12, "deaths": 8, "assists": 4 }
-  ]
+  "bsonType": "object",
+  "required": ["player_id", "agent"],
+  "properties": {
+    "player_id": {
+      "bsonType": "int",
+      "description": "ID del jugador"
+    },
+    "agent": {
+      "bsonType": "string",
+      "description": "Nombre del agente usado por el jugador"
+    },
+    "performance": {
+      "bsonType": "array",
+      "description": "Rendimiento del jugador con este agente",
+      "items": {
+        "bsonType": "object",
+        "required": ["match_id", "kills", "deaths", "assists"],
+        "properties": {
+          "match_id": {
+            "bsonType": "int",
+            "description": "ID de la partida"
+          },
+          "kills": {
+            "bsonType": "int",
+            "minimum": 0,
+            "description": "Número de asesinatos"
+          },
+          "deaths": {
+            "bsonType": "int",
+            "minimum": 0,
+            "description": "Número de muertes"
+          },
+          "assists": {
+            "bsonType": "int",
+            "minimum": 0,
+            "description": "Número de asistencias"
+          }
+        }
+      }
+    }
+  }
 }
 
 // Inserción de ejemplo

@@ -1,17 +1,57 @@
 db.createCollection("match_rounds");
 {
-  "_id": ObjectId,
-  "match_id": ObjectId,
-  "rounds": [
-    {
-      "round_number": 1,
-      "winning_team": ObjectId,
-      "losing_team": ObjectId,
-      "plant_site": "A",
-      "spike_planted": true,
-      "duration_seconds": 45
+  "bsonType": "object",
+  "required": ["match_id", "rounds"],
+  "properties": {
+    "match_id": {
+      "bsonType": "int",
+      "description": "ID del partido"
+    },
+    "rounds": {
+      "bsonType": "array",
+      "description": "Lista de rondas jugadas en el partido",
+      "items": {
+        "bsonType": "object",
+        "required": [
+          "round_number",
+          "winning_team",
+          "losing_team",
+          "plant_site",
+          "spike_planted",
+          "duration_seconds"
+        ],
+        "properties": {
+          "round_number": {
+            "bsonType": "int",
+            "minimum": 1,
+            "description": "Número de la ronda"
+          },
+          "winning_team": {
+            "bsonType": "int",
+            "description": "ID del equipo ganador"
+          },
+          "losing_team": {
+            "bsonType": "int",
+            "description": "ID del equipo perdedor"
+          },
+          "plant_site": {
+            "bsonType": "string",
+            "enum": ["A", "B", "None"],
+            "description": "Sitio donde se plantó la bomba"
+          },
+          "spike_planted": {
+            "bsonType": "bool",
+            "description": "Indica si se plantó la bomba"
+          },
+          "duration_seconds": {
+            "bsonType": "int",
+            "minimum": 1,
+            "description": "Duración de la ronda en segundos"
+          }
+        }
+      }
     }
-  ]
+  }
 }
 
 // Inserción de ejemplo

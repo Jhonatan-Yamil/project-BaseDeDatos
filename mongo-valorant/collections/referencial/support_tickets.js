@@ -1,24 +1,52 @@
 db.createCollection("support_tickets");
 
 {
-  "_id": ObjectId,
-  "player_id": ObjectId,
-  "issue_type": "login_problem",
-  "status": "open",
-  "messages": [
-    {
-      "timestamp": ISODate("2025-06-15T09:00:00Z"),
-      "sender": "player",
-      "message": "No puedo ingresar con mi cuenta."
+  "bsonType": "object",
+  "required": ["_id", "player_id", "issue_type", "status"],
+  "properties": {
+    "_id": {
+      "bsonType": "objectId",
+      "description": "Identificador único del reporte"
     },
-    {
-      "timestamp": ISODate("2025-06-15T10:00:00Z"),
-      "sender": "support",
-      "message": "Estamos revisando tu caso."
+    "player_id": {
+      "bsonType": "objectId",
+      "description": "ID del jugador que reporta"
+    },
+    "issue_type": {
+      "bsonType": "string",
+      "description": "Tipo de problema reportado",
+      "enum": ["login_problem", "bug_report", "payment_issue", "other"]
+    },
+    "status": {
+      "bsonType": "string",
+      "description": "Estado del reporte",
+      "enum": ["open", "closed", "in_progress", "resolved"]
+    },
+    "messages": {
+      "bsonType": "array",
+      "description": "Mensajes del reporte",
+      "items": {
+        "bsonType": "object",
+        "required": ["timestamp", "sender", "message"],
+        "properties": {
+          "timestamp": {
+            "bsonType": "date",
+            "description": "Fecha y hora del mensaje"
+          },
+          "sender": {
+            "bsonType": "string",
+            "enum": ["player", "support"],
+            "description": "Quién envió el mensaje"
+          },
+          "message": {
+            "bsonType": "string",
+            "description": "Contenido del mensaje"
+          }
+        }
+      }
     }
-  ]
+  }
 }
-
 // Inserción de ejemplo
 db.support_tickets.insertMany([
   {

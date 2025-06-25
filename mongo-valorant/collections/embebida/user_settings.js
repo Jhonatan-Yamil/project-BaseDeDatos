@@ -1,11 +1,53 @@
 db.createCollection("user_settings");
 
 {
-  "player_id": ObjectId,
-  "settings": {
-    "language": "en",
-    "graphics": { "quality": "high", "fullscreen": true },
-    "notifications": { "email": false, "in_game": true }
+  "bsonType": "object",
+  "required": ["player_id", "settings"],
+  "properties": {
+    "player_id": {
+      "bsonType": "int",
+      "description": "ID del jugador"
+    },
+    "settings": {
+      "bsonType": "object",
+      "required": ["language", "graphics", "notifications"],
+      "properties": {
+        "language": {
+          "bsonType": "string",
+          "description": "Idioma preferido",
+          "enum": ["en", "es", "fr", "de", "pt", "it"]
+        },
+        "graphics": {
+          "bsonType": "object",
+          "required": ["quality", "fullscreen"],
+          "properties": {
+            "quality": {
+              "bsonType": "string",
+              "enum": ["low", "medium", "high"],
+              "description": "Calidad gráfica"
+            },
+            "fullscreen": {
+              "bsonType": "bool",
+              "description": "Modo pantalla completa"
+            }
+          }
+        },
+        "notifications": {
+          "bsonType": "object",
+          "required": ["email", "in_game"],
+          "properties": {
+            "email": {
+              "bsonType": "bool",
+              "description": "Recibir notificaciones por correo"
+            },
+            "in_game": {
+              "bsonType": "bool",
+              "description": "Recibir notificaciones en el juego"
+            }
+          }
+        }
+      }
+    }
   }
 }
 

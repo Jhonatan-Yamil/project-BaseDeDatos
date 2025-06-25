@@ -1,10 +1,37 @@
 db.createCollection("match_chat_logs");
 
 {
-  "match_id": ObjectId,
-  "messages": [
-    { "timestamp": ISODate("2025-06-15T13:00:00Z"), "player_id": ObjectId, "message": "Let's push mid!" }
-  ]
+  "bsonType": "object",
+  "required": ["match_id"],
+  "properties": {
+    "match_id": {
+      "bsonType": "int",
+      "description": "ID único del partido"
+    },
+    "messages": {
+      "bsonType": "array",
+      "description": "Lista de mensajes enviados (opcional)",
+      "items": {
+        "bsonType": "object",
+        "required": ["timestamp", "player_id", "message"],
+        "properties": {
+          "timestamp": {
+            "bsonType": "date",
+            "description": "Fecha y hora del mensaje"
+          },
+          "player_id": {
+            "bsonType": "int",
+            "description": "ID del jugador que envió el mensaje"
+          },
+          "message": {
+            "bsonType": "string",
+            "description": "Contenido del mensaje",
+            "maxLength": 500
+          }
+        }
+      }
+    }
+  }
 }
 
 // Inserción de ejemplo
