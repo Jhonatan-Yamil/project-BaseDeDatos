@@ -7,7 +7,6 @@ El sistema maneja **pagos, transacciones y billeteras**, con operaciones crític
 - Tipos de transacción
 - Paquetes VP (`vp_packages`)
 - Consulta del balance en wallets
-- Rankings de jugadores (`rank_levels`, `players`)
 
 Estas operaciones son de **lectura frecuente** y tienen **cambios poco frecuentes** o con reglas bien definidas.
 
