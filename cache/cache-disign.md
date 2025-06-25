@@ -53,14 +53,6 @@ vp_package:1 => {
 **TTL**: 24 horas  
 **Política de actualización**: TTL + cache warming.
 
-### Jugadores por país como Set
-**Por qué**: Necesidad de filtros rápidos.  
-**Redis key**: `players:by_country:{country_code}`  
-**Tipo**: Set  
-**Contenido**: IDs de jugadores  
-**TTL**: 1 hora  
-**Política de actualización**: TTL + actualización al detectar cambios.
-
 ## Justificación de TTLs y Políticas de Expiración
 | Dato                | TTL sugerido | Justificación                              | Política de actualización             |
 |---------------------|--------------|--------------------------------------------|---------------------------------------|
@@ -68,4 +60,3 @@ vp_package:1 => {
 | `wallet_balance`    | 60s          | Cambia seguido, no en milisegundos         | TTL + actualización al escribir       |
 | `payment_methods`   | 24h o indef. | Cambia casi nunca                          | Solo si se edita en DB               |
 | `rank_levels`       | 24h          | Cambios raros                              | TTL + warming                        |
-| `players:by_country`| 1h           | Actualización solo con cambios notables     | TTL                                  |

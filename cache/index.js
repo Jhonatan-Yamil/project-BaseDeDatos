@@ -61,9 +61,25 @@ const getPaymentMethods = async () => {
   return methods;
 };
 
+// 🔹 Rank Levels (Sorted Set, TTL 24h)
+const getRankLevels = async () => {
+  const key = "rank_levels";
+  const exists = await redis.exists(key);
+  if (exists) return await redis.zRangeWithScores(key, 0, -1);
+
+  const [rows] = await db.query("SELECT name, rank_order FROM rank_levels");
+  if (rows.length > 0) {
+    const members = rows.flatMap((r) => [r.rank_order, r.name]);
+    await redis.zAdd(key, rows.map(r => ({ score: r.rank_order, value: r.name })));
+    await redis.expire(key, 86400); // 24h
+  }
+  return rows;
+};
+
 // 🔸 Test
 (async () => {
   console.log("VP Package:", await getVpPackage(1));
   console.log("Wallet Balance:", await getWalletBalance(5));
   console.log("Payment Methods:", await getPaymentMethods());
+  console.log("Rank Levels:", await getRankLevels());
 })();
