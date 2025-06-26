@@ -167,8 +167,13 @@ node index.js
 #### Pruebas de ETL (Extract, Transform, Load)
 ``` bash
 # Instalar dependencias
-pip install psycopg2-binary    pymongo  pymysql
-pip python-dotenv
+pip install psycopg2-binary
+pip install pymongo  
+pip install pymysql
+pip install python-dotenv
+
+#Para hacer la prueba ejecutar el comando
+python .\etl_script.py
 ```
 
 ```bash
@@ -178,23 +183,6 @@ pip python-dotenv
 docker exec -it mysql-valorant mysql -u user -p valorant_transactions_db
 ```
 
-#### MongoDB
-```bash
-# Via Docker
-docker exec -it mongo-valorant mongosh valorant_reports
-
-# Via cliente externo
-mongodb://localhost:27017/valorant_reports
-```
-
-#### Redis
-```bash
-# Via Docker
-docker exec -it redis-cache redis-cli
-
-# URL de conexión
-redis://default:eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81@localhost:6379
-```
 ### 📦 Nombres de Contenedores por Defecto
 
 | Servicio | Nombre del Contenedor | Puerto Host | Puerto Interno |
