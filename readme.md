@@ -164,6 +164,14 @@ node index.js
 
 ```
 
+#### Pruebas de ETL (Extract, Transform, Load)
+``` bash
+# Instalar dependencias
+pip install psycopg2-binary    pymongo  pymysql
+pip python-dotenv
+```
+
+```bash
 #### MySQL
 ```bash
 # Via Docker
