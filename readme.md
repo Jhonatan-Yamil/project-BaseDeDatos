@@ -276,7 +276,6 @@ Este proyecto fue desarrollado como parte del curso de Bases de Datos Avanzadas,
 ## 📝 Notas Técnicas
 
 - **Ofuscamiento de datos**: Implementado en DBeaver para protección de información sensible
-- **Sincronización**: Scripts automáticos para mantener consistencia entre motores
 - **Escalabilidad**: Arquitectura preparada para crecimiento horizontal
 - **Monitoreo**: Índices y análisis de rendimiento implementados
 - **Backup**: Estrategia completa de respaldo y recuperación
