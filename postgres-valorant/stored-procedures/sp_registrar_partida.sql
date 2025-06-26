@@ -38,3 +38,15 @@ begin
 
 end;
 $$;
+
+
+CALL registrar_partida(
+    5, 
+    '2025-06-26', 
+    45, 
+    1, 
+    2, 
+    '[{"player_id": 1, "agent_id": 10, "team_id": 1, "kills": 20, "deaths": 10, "assists": 5}, 
+       {"player_id": 2, "agent_id": 11, "team_id": 1, "kills": 15, "deaths": 12, "assists": 7}, 
+       {"player_id": 3, "agent_id": 12, "team_id": 2, "kills": 18, "deaths": 15, "assists": 3}]'::json
+);

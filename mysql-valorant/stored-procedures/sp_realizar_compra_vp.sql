@@ -56,3 +56,5 @@ begin
     commit;
 end $$
 delimiter ;
+
+CALL realizar_compra_vp(10, 3, 2);
