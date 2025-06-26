@@ -56,7 +56,7 @@ REDIS_URL=redis://default:eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81@localhost:6379
 
 1. **Clonar el repositorio**
    ```bash
-   git clone <repository-url>
+   git clone <https://github.com/Jhonatan-Yamil/project-BaseDeDatos.git>
    cd project-BaseDeDatos
    ```
 
