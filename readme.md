@@ -9,23 +9,6 @@ Sistema de base de datos avanzado e híbrido diseñado para gestionar un juego t
 - **MongoDB**: Reportes de comunidad, denuncias y contenido flexible
 - **Redis**: Sistema de caché para optimización de rendimiento
 
-## 🏗️ Arquitectura del Sistema
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   PostgreSQL    │    │      MySQL      │    │    MongoDB      │
-│  (Gameplay &    │    │ (Transactions & │    │   (Reports &    │
-│   Statistics)   │    │   Financials)   │    │   Community)    │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                       │                       │
-         └───────────────────────┼───────────────────────┘
-                                 │
-                    ┌─────────────────┐
-                    │      Redis      │
-                    │  (Cache Layer)  │
-                    └─────────────────┘
-```
-
 ## 📁 Estructura del Proyecto
 
 ```
@@ -54,6 +37,20 @@ project-BaseDeDatos/
 - Docker y Docker Compose
 - Node.js 18+ (para scripts de backup y utilidades)
 - Git
+
+### Environment Setup
+POSTGRES_USER=user
+POSTGRES_PASSWORD=user123
+POSTGRES_DB=valorant_gameplay_db
+
+MYSQL_ROOT_PASSWORD=user123
+MYSQL_DATABASE=valorant_transactions_db
+MYSQL_USER=user
+MYSQL_PASSWORD=123
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+
+REDIS_URL=redis://default:eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81@localhost:6379
 
 ### Pasos de Instalación
 
