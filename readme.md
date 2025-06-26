@@ -157,6 +157,7 @@ cd ..
 ```bash
 # Contenedores requeridos: sharding específicos
 cd sharding/
+npm install
 docker compose --env-file ../.env up -d
 
 # Ejecutar script de prueba de sharding
@@ -167,34 +168,17 @@ node index.js
 #### Pruebas de ETL (Extract, Transform, Load)
 ``` bash
 # Instalar dependencias
-pip install psycopg2-binary    pymongo  pymysql
-pip python-dotenv
+pip install psycopg2-binary
+pip install pymongo  
+pip install pymysql
+pip install python-dotenv
+
+#Antes de hacer la prueba, se deben insertar los datos que estan en los scripts en la carpeta de mongo para que funcione correctamente el ETL
+
+#Para hacer la prueba ejecutar el comando
+python .\etl_script.py
 ```
 
-```bash
-#### MySQL
-```bash
-# Via Docker
-docker exec -it mysql-valorant mysql -u user -p valorant_transactions_db
-```
-
-#### MongoDB
-```bash
-# Via Docker
-docker exec -it mongo-valorant mongosh valorant_reports
-
-# Via cliente externo
-mongodb://localhost:27017/valorant_reports
-```
-
-#### Redis
-```bash
-# Via Docker
-docker exec -it redis-cache redis-cli
-
-# URL de conexión
-redis://default:eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81@localhost:6379
-```
 ### 📦 Nombres de Contenedores por Defecto
 
 | Servicio | Nombre del Contenedor | Puerto Host | Puerto Interno |
