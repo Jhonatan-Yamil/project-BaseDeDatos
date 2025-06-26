@@ -249,42 +249,11 @@ EXPLAIN ANALYZE SELECT * FROM players WHERE rank_id = 1;
 EXPLAIN SELECT * FROM transactions WHERE user_id = 123;
 ```
 
-## 🐛 Troubleshooting
-
-### Problemas Comunes
-
-1. **Error de conexión a base de datos**
-   ```bash
-   # Verificar que los contenedores estén corriendo
-   docker-compose ps
-   
-   # Reiniciar servicios
-   docker-compose restart postgres mysql
-   ```
-
-2. **MongoDB sin autenticación**
-   ```bash
-   # Para desarrollo, usar sin autenticación
-   docker exec -it mongo-valorant mongosh --eval "db.runCommand({listCollections: 1})"
-   ```
-
-3. **Redis connection refused**
-   ```bash
-   # Verificar configuración de Redis
-   docker-compose logs redis-cache
-   ```
-
-4. **Permisos de archivos de backup**
-   ```bash
-   # En Windows PowerShell
-   mkdir -p backups/mysql
-   mkdir -p backups/postgres
-   ```
 
 ## 📚 Documentación Adicional
 
 - [Diagrama de Arquitectura](./masterSlaves/diagrama.md)
-- [Configuración de Caché](./cache/cache-design.md)
+- [Configuración de Caché](./cache/cache-disign.md)
 - [Estrategia de Sharding](./sharding/sharding.md)
 - [Scripts de MongoDB](./mongo-valorant/scripts/)
 
