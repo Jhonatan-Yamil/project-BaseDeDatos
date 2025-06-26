@@ -1,27 +1,25 @@
-# Diagrama de Arquitectura PostgreSQL con Replicación
+# Diagrama de Arquitectura MySql con Replicación
 
 ```plaintext
                          +----------------------+
-                         |  postgres_exporter   |
-                         | (Monitorea Primary)  |
+                         |    mysql_exporter    |
+                         |  (Monitorea Master)  |
                          +----------+-----------+
                                     |
                                     v
-                          http://localhost:9187
-
                          +----------------------+
-                         |  postgres_primary    |
-                         |   (Puerto 55432)     |
-                         |   Modo: MASTER       |
-                         |   DB: postgres       |
+                         |    mysql_master      |
+                         |     (Puerto 3306)    |
+                         |      Modo: MASTER    |
+                         |    DB: valorant      |
                          +----------+-----------+
                                     |
      ------------------------------+-------------------------------
      |                                                         |
      v                                                         v
-+---------------------+                          +----------------------+
-| postgres_replica_1  |                          | postgres_replica_2   |
-|   (Puerto 5433)     |                          |   (Puerto 5434)      |
-|   Modo: SLAVE       |                          |   Modo: SLAVE        |
-| Sync desde master   |                          | Sync desde master    |
-+---------------------+                          +----------------------+
++---------------------+                          +---------------------+
+|    mysql_slave1     |                          |    mysql_slave2     |
+|    (Puerto 3307)    |                          |    (Puerto 3308)    |
+|     Modo: SLAVE     |                          |     Modo: SLAVE     |
+|   Sync desde master |                          |   Sync desde master |
++---------------------+                          +---------------------+

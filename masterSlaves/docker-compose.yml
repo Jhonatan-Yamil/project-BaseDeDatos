@@ -1,65 +1,54 @@
 version: '3.8'
 
-# TODO: Ver el puerto 55432, solo para master se cambio
 services:
-  postgres_primary:
-    image: bitnami/postgresql:14
-    container_name: proyecto-valorant-postgres-main
+  mysql_master:
+    image: mysql:8
+    container_name: mysql_master
     ports:
-      - "5432:5432"
+      - "3306:3306"
     environment:
-      - POSTGRESQL_REPLICATION_MODE=master
-      - POSTGRESQL_USERNAME=user
-      - POSTGRESQL_PASSWORD=password
-      - POSTGRESQL_DATABASE=postgres
-      - POSTGRESQL_REPLICATION_USER=replicator
-      - POSTGRESQL_REPLICATION_PASSWORD=replicator_password
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: valorant
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    command: --server-id=1 --log-bin=mysql-bin --binlog-do-db=valorant
     volumes:
-      - ./primary_data:/bitnami/postgresql
-      - ./init/postgres-valorant.sql:/docker-entrypoint-initdb.d/init.sql
+      - master_data:/var/lib/mysql
+      - ./init/mysql-valorant.sql:/docker-entrypoint-initdb.d/init.sql
 
-  postgres_replica_1:
-    image: bitnami/postgresql:14
-    container_name: proyecto-valorant-postgres-slave-1
+  mysql_slave1:
+    image: mysql:8
+    container_name: mysql_slave1
     ports:
-      - "5433:5432"
-    depends_on:
-      - postgres_primary
+      - "3307:3306"
     environment:
-      - POSTGRESQL_REPLICATION_MODE=slave
-      - POSTGRESQL_USERNAME=user
-      - POSTGRESQL_PASSWORD=password
-      - POSTGRESQL_MASTER_HOST=postgres_primary
-      - POSTGRESQL_MASTER_PORT_NUMBER=5432
-      - POSTGRESQL_REPLICATION_USER=replicator
-      - POSTGRESQL_REPLICATION_PASSWORD=replicator_password
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: valorant
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    command: --server-id=2 --relay-log=relay-log --log-bin=mysql-bin --read-only=1
+    depends_on:
+      - mysql_master
     volumes:
-      - ./replica1_data:/bitnami/postgresql
+      - slave1_data:/var/lib/mysql
 
-  postgres_replica_2:
-    image: bitnami/postgresql:14
-    container_name: proyecto-valorant-postgres-slave-2
+  mysql_slave2:
+    image: mysql:8
+    container_name: mysql_slave2
     ports:
-      - "5434:5432"
-    depends_on:
-      - postgres_primary
+      - "3308:3306"
     environment:
-      - POSTGRESQL_REPLICATION_MODE=slave
-      - POSTGRESQL_USERNAME=user
-      - POSTGRESQL_PASSWORD=password
-      - POSTGRESQL_MASTER_HOST=postgres_primary
-      - POSTGRESQL_MASTER_PORT_NUMBER=5432
-      - POSTGRESQL_REPLICATION_USER=replicator
-      - POSTGRESQL_REPLICATION_PASSWORD=replicator_password
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: valorant
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: apppass
+    command: --server-id=3 --relay-log=relay-log --log-bin=mysql-bin --read-only=1
+    depends_on:
+      - mysql_master
     volumes:
-      - ./replica2_data:/bitnami/postgresql
+      - slave2_data:/var/lib/mysql
 
-  postgres_exporter:
-    image: prometheuscommunity/postgres-exporter
-    container_name: proyecto-valorant-postgres-exporter
-    ports:
-      - "9187:9187"
-    environment:
-      - DATA_SOURCE_NAME=postgresql://user:password@postgres_primary:5432/postgres?sslmode=disable
-    depends_on:
-      - postgres_primary
+volumes:
+  master_data:
+  slave1_data:
+  slave2_data:
