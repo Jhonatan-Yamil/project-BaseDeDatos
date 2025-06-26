@@ -6,7 +6,6 @@ import logging
 import os
 from dotenv import load_dotenv
 
-# Cargar variables desde ../.env
 load_dotenv(dotenv_path='../.env')
 
 # Configuración de logging
