@@ -61,7 +61,7 @@ CREATE TABLE agents (
 
 CREATE TABLE matches (
     id SERIAL PRIMARY KEY,
-    map_id INT NOT NULL,
+    map_id INT NOT NULL REFERENCES maps(id),
     match_date DATE NOT NULL,
     duration_minutes INT DEFAULT -1
 );
