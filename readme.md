@@ -235,13 +235,6 @@ redis://default:eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81@localhost:6379
 - `community_feedback`: Retroalimentación de la comunidad
 - `match_reports`: Reportes de partidas
 
-### 4. Sistema de Caché (Redis)
-
-#### Tipos de Caché:
-- **Estadísticas de jugadores** (TTL: 5 min)
-- **Rankings globales** (TTL: 30 min)
-- **Datos de sesión** (TTL: 1 hora)
-
 ## 📊 Características Avanzadas
 
 ### Replicación Master-Slave
