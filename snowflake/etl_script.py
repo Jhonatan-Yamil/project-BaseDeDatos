@@ -4,6 +4,10 @@ from pymongo import MongoClient
 import pandas as pd
 import logging
 import os
+from dotenv import load_dotenv
+
+# Cargar variables desde ../.env
+load_dotenv(dotenv_path='../.env')
 
 # Configuración de logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -17,9 +21,9 @@ if not os.path.exists(output_dir):
 # Conexiones a bases de datos
 try:
     pg_conn = psycopg2.connect(
-        dbname="valorant_gameplay_db",
-        user="luis",
-        password="123456789",
+        dbname=os.getenv("POSTGRES_DB"),
+        user=os.getenv("POSTGRES_USER"),
+        password=os.getenv("POSTGRES_PASSWORD"),
         host="localhost",
         port="5432"
     )
@@ -27,9 +31,9 @@ try:
     logger.info("Conexión a PostgreSQL establecida")
 
     mysql_conn = pymysql.connect(
-        db="valorant_transactions_db",
-        user="luis",
-        password="123456789",
+        db=os.getenv("MYSQL_DATABASE"),
+        user=os.getenv("MYSQL_USER"),
+        password=os.getenv("MYSQL_PASSWORD"),
         host="localhost",
         port=3306
     )
@@ -46,7 +50,6 @@ except Exception as e:
 
 # Extracción
 try:
-    # PostgreSQL: Fact_Player_Stats
     pg_cursor.execute("""
         SELECT ps.id, ps.player_id, ps.match_id, ps.agent_id, ps.team_id, ps.kills, ps.deaths, ps.assists
         FROM player_stats ps
@@ -56,14 +59,12 @@ try:
     pg_data = pg_cursor.fetchall()
     logger.info(f"Extracción de {len(pg_data)} registros de PostgreSQL")
 
-    # MySQL: Fact_Transactions
     mysql_cursor.execute("""
         SELECT id, user_id, transaction_date, amount, payment_method_id, transaction_type_id, status
         FROM transactions
     """)
     mysql_data = mysql_cursor.fetchall()
     logger.info(f"Extracción de {len(mysql_data)} registros de MySQL")
-    # Print first few MySQL records
     if mysql_data:
         logger.info("Primeros 3 registros de MySQL (transactions):")
         for record in mysql_data[:3]:
@@ -71,7 +72,6 @@ try:
     else:
         logger.warning("No se encontraron registros en transactions")
 
-    # MongoDB: player_performance
     mongo_data = mongo_db.player_performance.find({
         "performance.match_id": {"$gte": 0}
     })
@@ -83,34 +83,26 @@ except Exception as e:
 
 # Transformación
 try:
-    # Convertir a DataFrames
     pg_df = pd.DataFrame(pg_data, columns=["id", "player_id", "match_id", "agent_id", "team_id", "kills", "deaths", "assists"])
     mysql_df = pd.DataFrame(mysql_data, columns=["transaction_id", "user_id", "transaction_date", "amount", "payment_method_id", "transaction_type_id", "status"])
     
-    # Handle empty mongo_list
     if mongo_list:
         mongo_df = pd.json_normalize(mongo_list, record_path='performance', meta=['player_id', 'agent'])
     else:
-        # Create empty DataFrame with expected columns
         mongo_df = pd.DataFrame(columns=['match_id', 'kills', 'deaths', 'assists', 'player_id', 'agent'])
         logger.warning("Created empty mongo_df due to no data in player_performance")
 
-    # Limpieza
     pg_df = pg_df.fillna(0)
     mysql_df = mysql_df[mysql_df['status'] == 'success']
 
-    # Integración
     merged_stats = pg_df.merge(mongo_df[['match_id', 'kills', 'deaths', 'assists']], on='match_id', how='left', suffixes=('_pg', '_mongo'))
     merged_stats['total_kills'] = merged_stats['kills_pg'].fillna(0) + merged_stats['kills_mongo'].fillna(0)
 
-    # Estandarización
     pg_df['match_id'] = pg_df['match_id'].astype(int)
     mysql_df['transaction_date'] = pd.to_datetime(mysql_df['transaction_date'])
 
-    # Enriquecimiento
     pg_df['kda'] = (pg_df['kills'] + pg_df['assists']) / pg_df['deaths'].replace(0, 1)
 
-    # Preparar datos para salida
     fact_player_stats = pg_df[['id', 'player_id', 'match_id', 'agent_id', 'team_id', 'kills', 'deaths', 'assists', 'kda']]
     fact_transactions = mysql_df
 
