@@ -157,6 +157,7 @@ cd ..
 ```bash
 # Contenedores requeridos: sharding específicos
 cd sharding/
+npm install
 docker compose --env-file ../.env up -d
 
 # Ejecutar script de prueba de sharding
@@ -172,15 +173,10 @@ pip install pymongo  
 pip install pymysql
 pip install python-dotenv
 
+#Antes de hacer la prueba, se deben insertar los datos que estan en los scripts en la carpeta de mongo para que funcione correctamente el ETL
+
 #Para hacer la prueba ejecutar el comando
 python .\etl_script.py
-```
-
-```bash
-#### MySQL
-```bash
-# Via Docker
-docker exec -it mysql-valorant mysql -u user -p valorant_transactions_db
 ```
 
 ### 📦 Nombres de Contenedores por Defecto
