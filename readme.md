@@ -38,32 +38,30 @@ project-BaseDeDatos/
 - Node.js 18+ (para scripts de backup y utilidades)
 - Git
 
-### Environment Setup
-POSTGRES_USER=user
-POSTGRES_PASSWORD=user123
-POSTGRES_DB=valorant_gameplay_db
-
-MYSQL_ROOT_PASSWORD=user123
-MYSQL_DATABASE=valorant_transactions_db
-MYSQL_USER=user
-MYSQL_PASSWORD=123
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-
-REDIS_URL=redis://default:eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81@localhost:6379
-
 ### Pasos de Instalación
 
 1. **Clonar el repositorio**
    ```bash
    git clone <https://github.com/Jhonatan-Yamil/project-BaseDeDatos.git>
    cd project-BaseDeDatos
+   code . 
    ```
 
 2. **Configurar variables de entorno**
    ```bash
-   # El archivo .env ya está configurado con valores por defecto
-   # Modificar si es necesario
+   ### Environment Setup
+    POSTGRES_USER=user
+    POSTGRES_PASSWORD=user123
+    POSTGRES_DB=valorant_gameplay_db
+
+    MYSQL_ROOT_PASSWORD=user123
+    MYSQL_DATABASE=valorant_transactions_db
+    MYSQL_USER=user
+    MYSQL_PASSWORD=123
+    MYSQL_HOST=localhost
+    MYSQL_PORT=3306
+
+    REDIS_URL=redis://default:eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81@localhost:6379
    ```
 
 3. **Instalar dependencias Node.js**
@@ -71,10 +69,42 @@ REDIS_URL=redis://default:eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81@localhost:6379
    npm install
    ```
 
-4. **Levantar los contenedores**
+   **Contenedor Principal (Base del Sistema):**
    ```bash
+   # Desde la raíz del proyecto
    docker-compose up -d
    ```
+   
+   **Contenedores Específicos por Funcionalidad:**
+   
+   **Master-Slave (Replicación):**
+   ```bash
+   cd masterSlaves/
+   docker-compose up -d
+   cd ..
+   ```
+   
+   **MongoDB (Sistema de Reportes):**
+   ```bash
+   cd mongo-valorant/
+   docker-compose up -d
+   cd ..
+   ```
+   
+   **Sharding (Particionado):**
+   ```bash
+   cd sharding/
+   docker compose --env-file ../.env up -d
+   cd ..
+   ```
+   
+   **Cache Redis:**
+   ```bash
+   cd cache/
+   docker-compose up -d
+   cd ..
+   ```
+Tomar en cuenta que se debe probar modulo por modulo, ya que cada uno tiene su propia configuración y puede existir algun choque de puertos.
 
 5. **Verificar que todos los servicios estén corriendo**
    ```bash
@@ -109,19 +139,29 @@ npm run restore:pg
 npm run restore:mysql
 ```
 
-### Conexiones a Bases de Datos
-
-#### PostgreSQL
+#### ⚡ Sistema de Caché (Redis)
 ```bash
-# Via Docker
-docker exec -it proyecto-valorant-postgres psql -U jhonny -d valorant_gameplay_db
+# Contenedores requeridos: cache/redis, postgres, mysql
+cd cache/
+docker-compose up -d
+cd ..
+docker-compose up -d postgres mysql
 
-# Via cliente externo
-Host: localhost
-Port: 5432
-Database: valorant_gameplay_db
-Username: jhonny
-Password: 123
+# Ejecutar pruebas de caché
+cd cache/
+node index.js
+cd ..
+```
+
+#### 🧩 Pruebas de Sharding
+```bash
+# Contenedores requeridos: sharding específicos
+cd sharding/
+docker compose --env-file ../.env up -d
+
+# Ejecutar script de prueba de sharding
+node index.js
+
 ```
 
 #### MySQL
