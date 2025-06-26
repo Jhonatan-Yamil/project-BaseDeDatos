@@ -42,7 +42,7 @@ project-BaseDeDatos/
 
 1. **Clonar el repositorio**
    ```bash
-   git clone <https://github.com/Jhonatan-Yamil/project-BaseDeDatos.git>
+   git clone https://github.com/Jhonatan-Yamil/project-BaseDeDatos.git
    cd project-BaseDeDatos
    code . 
    ```
@@ -167,14 +167,7 @@ node index.js
 #### MySQL
 ```bash
 # Via Docker
-docker exec -it mysql mysql -u jhonny -p valorant_transactions_db
-
-# Via cliente externo
-Host: localhost
-Port: 3306
-Database: valorant_transactions_db
-Username: jhonny
-Password: 123
+docker exec -it mysql-valorant mysql -u user -p valorant_transactions_db
 ```
 
 #### MongoDB
@@ -194,6 +187,24 @@ docker exec -it redis-cache redis-cli
 # URL de conexión
 redis://default:eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81@localhost:6379
 ```
+### 📦 Nombres de Contenedores por Defecto
+
+| Servicio | Nombre del Contenedor | Puerto Host | Puerto Interno |
+|----------|---------------------|-------------|----------------|
+| **Contenedores Principales** |
+| PostgreSQL Principal | `proyecto-valorant-postgres` | 5432 | 5432 |
+| MySQL Principal | `mysql` | 3306 | 3306 |
+| **Contenedores de Cache** |
+| Redis Cache | `cache` | 6379 | 6379 |
+| **Contenedores Master-Slave** |
+| MySQL Master | `mysql_master` | 3306 | 3306 |
+| MySQL Slave 1 | `mysql_slave1` | 3307 | 3306 |
+| MySQL Slave 2 | `mysql_slave2` | 3308 | 3306 |
+| **Contenedores de Sharding** |
+| PostgreSQL Shard LA | `proyecto-valorant-postgres-LA` | 5436 | 5432 |
+| PostgreSQL Shard EU | `proyecto-valorant-postgres-EU` | 5437 | 5432 |
+| **Contenedores MongoDB** |
+| MongoDB | `mongo` | 27017 | 27017 |
 
 ## 🔧 Funcionalidades Principales
 
