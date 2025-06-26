@@ -235,38 +235,6 @@ redis://default:eYVX7EwVmmxKPCDmwMtyKVge8oLd2t81@localhost:6379
 - `community_feedback`: Retroalimentación de la comunidad
 - `match_reports`: Reportes de partidas
 
-## 📊 Características Avanzadas
-
-### Replicación Master-Slave
-```bash
-cd masterSlaves/
-docker-compose up -d
-```
-
-### Sharding y Particionado
-```bash
-cd sharding/
-docker-compose up -d
-```
-
-### Sincronización de Datos
-Scripts automáticos para sincronizar datos entre motores:
-```bash
-node init/sync/syncData.js
-```
-
-## 🔒 Seguridad y Roles
-
-### Roles PostgreSQL
-- `gameplay_admin`: Administrador del sistema de juego
-- `stats_analyst`: Analista de estadísticas
-- `player_basic`: Usuario básico
-
-### Roles MySQL
-- `transaction_admin`: Administrador de transacciones
-- `financial_analyst`: Analista financiero
-- `wallet_user`: Usuario de billeteras
-
 ## 📈 Monitoreo y Rendimiento
 
 ### Índices Principales
@@ -290,33 +258,6 @@ EXPLAIN SELECT * FROM transactions WHERE user_id = 123;
 - [Estrategia de Sharding](./sharding/sharding.md)
 - [Scripts de MongoDB](./mongo-valorant/scripts/)
 
-## 🧪 Pruebas y Ejemplos
-
-### Probar Stored Procedures
-```sql
--- PostgreSQL: Registrar una partida
-CALL registrar_partida(1, 1, 2, '2024-01-15', 13, 11, 'Ascent');
-
--- MySQL: Realizar una compra
-CALL realizar_compra_vp(1, 1000, 'Compra de VP para batalla');
-```
-
-### Consultas MongoDB
-```javascript
-// Buscar reportes por jugador
-db.reports.find({reported_player_id: 12345});
-
-// Estadísticas de reportes
-db.reports.aggregate([
-  {$group: {_id: "$report_type", count: {$sum: 1}}}
-]);
-```
-
-### Uso de Caché Redis
-```javascript
-// Obtener estadísticas de jugador desde caché
-const playerStats = await redis.get('player:stats:12345');
-```
 
 ## 👥 Contribuciones
 
@@ -339,9 +280,3 @@ Este proyecto fue desarrollado como parte del curso de Bases de Datos Avanzadas,
 - **Escalabilidad**: Arquitectura preparada para crecimiento horizontal
 - **Monitoreo**: Índices y análisis de rendimiento implementados
 - **Backup**: Estrategia completa de respaldo y recuperación
-
----
-
-**Versión**: 1.0.0  
-**Última actualización**: Enero 2024  
-**Autor**: Jhonatan - Bases de Datos Avanzadas
